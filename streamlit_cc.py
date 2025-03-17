@@ -141,17 +141,19 @@ with st.form(key="user_info_form", clear_on_submit=False):
 
     bday = form_values["dob"]
     if bday:
-        age = max_date - bday.year
+        age = max_date.year - bday.year
         if bday.month > max_date.month or (
             bday.month == max_date.month and bday.day > max_date.day
         ):
             age -= 1
 
-        st.write(f"your calculated age is {age} years")
+    st.write(f"your calculated age is {age} years")
 
+    # when we run the form the rerun is deffered until later
     print(form_values)
 
     submit_button = st.form_submit_button(label="submit")
+
     if submit_button:  # True when submit button is pressed
         if not all(form_values.values()):
             print(1)
@@ -162,3 +164,104 @@ with st.form(key="user_info_form", clear_on_submit=False):
             st.write("### Info")
             for key, value in form_values.items():
                 st.write(f"{key}: {value}")
+
+
+st.title("session state")
+st.write(
+    "something that we can use to store values in one user session (one tab they have open)"
+)
+
+if "count" not in st.session_state:
+    st.session_state.count = 0
+
+st.write(
+    f"counter value: {st.session_state.count}"
+)  # run top to bottom, this happens before rewrite
+
+if st.button("increment counter"):
+    st.session_state.count += 1
+    st.write(f"counter incremented to {st.session_state.count}")
+
+if st.button("reset"):
+    st.session_state.count = 0
+
+st.write("callbacks")
+
+if "step" not in st.session_state:
+    st.session_state.step = 1
+if "info" not in st.session_state:
+    st.session_state.info = {}
+
+
+def goto_step2(name):
+    print("callback, value:", name)
+    st.session_state.info["name"] = (
+        name  # info is a dict that stores user information in session_state
+    )
+    st.session_state.step = 2
+
+    print(st.session_state.info, st.session_state.step)
+
+
+if st.session_state.step == 1:
+    st.header("part 1")
+
+    st.write("making this equal to whatever is in session state")
+    name = st.text_input("name", value=st.session_state.info.get("name", ""))
+    st.caption("you must hit the enter button to apply this")
+
+    print(name)
+    st.button(
+        "next", on_click=goto_step2, args=(name,)
+    )  # we get into this is on button click one, SEE BELOW
+
+    # callback run before any other code on the next rerun
+
+# SEE ABOVE, we have to click it a second time to rerun the code befor e getting to this if statement
+elif st.session_state.step == 2:
+    st.header("part 2: review")
+    st.subheader("please review this")
+    print("name:", st.session_state.info.get("name", ""))
+    st.write(f"**Name**: {st.session_state.info.get("name", "")}")
+
+print(st.session_state.info)
+
+st.sidebar.title("this is a title in the sidebar")
+st.sidebar.write("this is writing in the sidebar")
+sidebar_input = st.sidebar.text_input("enter something in the sidebar")
+
+
+tabs = st.tabs(["tab 1", "tab2", "tab 3"])
+
+with tabs[0]:
+    st.write("you are in tab 1")
+with tabs[1]:
+    st.write("you are in tab 2")
+with tabs[2]:
+    st.write("you are in tab 3")
+
+columns = st.columns(2)
+
+with columns[0]:
+    st.header("col 1")
+with columns[1]:
+    st.header("col 2")
+
+with st.container(border=True):
+    st.write("in a container")
+
+placeholder = st.empty()
+placeholder.write("this is an empty placeholder, useful for dynamic content")
+
+if st.button("update placeholder"):
+    placeholder.write("the content of placeholder has been overwritten")
+
+with st.expander("expand for more details"):
+    st.write("more details")
+
+st.write("hover over this for a tooltip")
+
+st.button("button w/ tooltip", help="this shows on hover")  # bug in this version
+
+if sidebar_input:
+    st.write(f"you entered in the sidebar: {sidebar_input}")
