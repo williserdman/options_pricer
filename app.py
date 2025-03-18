@@ -1,3 +1,5 @@
+numpy
+scipy
 import streamlit as st
 from black_scholes_function import black_scholes
 
