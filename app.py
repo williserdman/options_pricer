@@ -81,7 +81,7 @@ with outer_columns[0]:
     with c_inner[0]:
         option_type = st.selectbox("Select Option Type", ["call", "put"])
     with c_inner[1]:
-        precision = st.slider("Precision", 10, 50, 20)
+        precision = st.slider("Precision", 10, 30, 10)
 
     # Define ranges for parameters
     param_ranges = {
@@ -128,7 +128,7 @@ with outer_columns[0]:
             }
             params_dict[x_param] = x
             params_dict[y_param] = y
-            print(params_dict)
+            # print(params_dict)
             prices[i, j] = bs_cached(
                 params_dict[params[0]],
                 params_dict[params[1]],
@@ -137,7 +137,7 @@ with outer_columns[0]:
                 params_dict[params[4]],
                 option_type,
             )
-            print(prices)
+            # print(prices)
 
     # Create heatmap
     fig, ax = plt.subplots(figsize=(10, 8))
@@ -146,6 +146,8 @@ with outer_columns[0]:
         xticklabels=np.round(y_values, 2),
         yticklabels=np.round(x_values, 2),
         cmap="coolwarm",
+        annot=True if precision < 15 else False,
+        fmt=".2f",
         ax=ax,
     )
     ax.set_xlabel(y_param)
