@@ -62,7 +62,7 @@ import seaborn as sns
 import numpy as np
 
 with outer_columns[0]:
-    st.title("Black-Scholes Option Pricing Sensitivity Analysis")
+    st.title("Option Pricing Sensitivity")
 
     st.text("Based on the values from the sidebar. Shows values +/- 30% from selected")
 
@@ -156,7 +156,7 @@ with outer_columns[0]:
 
 with outer_columns[1]:
 
-    st.title("Volatility and Time-Sensitivity Analysis")
+    st.title("Volatility Analysis")
 
     with st.form(key="volatility_ticker_list", clear_on_submit=False):
         text_input = st.text_input(
