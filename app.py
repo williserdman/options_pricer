@@ -64,6 +64,8 @@ import numpy as np
 with outer_columns[0]:
     st.title("Black-Scholes Option Pricing Sensitivity Analysis")
 
+    st.text("Based on the values from the sidebar. Shows values +/- 30% from selected")
+
     # Dropdowns for selecting parameters
     params = [
         "Current Stock Price",
@@ -93,15 +95,23 @@ with outer_columns[0]:
             strike_price + strike_price * 0.3,
             precision,
         ),
-        "Time to Expiration (years)": np.linspace(0.1, 4, precision),
-        "Risk Free Rate (%)": np.linspace(1, 10, precision),
-        "Volatility (%)": np.linspace(1, 100, precision),
+        "Time to Expiration (years)": np.linspace(
+            time_to_expiration - time_to_expiration * 0.3,
+            time_to_expiration + time_to_expiration * 0.3,
+            precision,
+        ),
+        "Risk Free Rate (%)": np.linspace(
+            risk_free_rate - risk_free_rate * 0.3,
+            risk_free_rate + risk_free_rate * 0.3,
+            precision,
+        ),
+        "Volatility (%)": np.linspace(
+            volatility - volatility * 0.3, volatility + volatility * 0.3, precision
+        ),
     }
 
     # Generate data for heatmap
-    x_values = param_ranges[x_param][
-        ::-1
-    ]  # to count backwards, this puts (min, min) in bottom left instead of top left
+    x_values = param_ranges[x_param]
     y_values = param_ranges[y_param]
 
     prices = np.zeros((len(x_values), len(y_values)))
