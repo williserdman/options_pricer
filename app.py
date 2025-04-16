@@ -18,7 +18,7 @@ with st.sidebar.form(key="scholes_input_form", clear_on_submit=False):
     strike_price = st.number_input("Strike Price", value=22.75)
     time_to_expiration = st.number_input("Time to Expiration (years)", value=3.5)
     risk_free_rate = st.number_input("Risk Free Rate (%)", value=5)
-    volatility = st.number_input("Volatility (%)", value=50)
+    volatility = st.number_input("Volatility (%)", value=25)
     # type = st.selectbox("type", ["call", "put"])
 
     st.form_submit_button()
