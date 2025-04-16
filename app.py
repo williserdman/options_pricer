@@ -141,6 +141,7 @@ with outer_columns[0]:
 
     # Create heatmap
     fig, ax = plt.subplots(figsize=(10, 8))
+
     sns.heatmap(
         prices,
         xticklabels=np.round(y_values, 2),
@@ -150,6 +151,8 @@ with outer_columns[0]:
         fmt=".2f",
         ax=ax,
     )
+    # Invert the y-axis
+    ax.invert_yaxis()
     ax.set_xlabel(y_param)
     ax.set_ylabel(x_param)
     ax.set_title(f"{option_type.capitalize()} Option Price Sensitivity Analysis")
