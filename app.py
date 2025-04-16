@@ -74,8 +74,8 @@ with outer_columns[0]:
         "Risk Free Rate (%)",
         "Volatility (%)",
     ]
-    y_param = st.selectbox("Select X-axis Parameter", params, index=2)
-    x_param = st.selectbox("Select Y-axis Parameter", params, index=3)
+    y_param = st.selectbox("Select X-axis Parameter", params, index=0)
+    x_param = st.selectbox("Select Y-axis Parameter", params, index=4)
     c_inner = st.columns(2)
 
     with c_inner[0]:
